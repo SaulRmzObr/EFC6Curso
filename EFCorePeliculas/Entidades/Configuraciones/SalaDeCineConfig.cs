@@ -1,0 +1,16 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
+
+namespace EFCorePeliculas.Entidades.Configuraciones
+{
+    public class SalaDeCineConfig : IEntityTypeConfiguration<SalaDeCine>
+    {
+        public void Configure(EntityTypeBuilder<SalaDeCine> builder)
+        {
+            builder.HasKey(prop => prop.idSalaCine);
+            builder.Property(prop => prop.dPrecio).HasPrecision(precision: 9, scale: 2);
+            builder.Property(prop => prop.TipoSalaDeCine).HasDefaultValue(TipoSalaDeCine.DosDimensiones);
+        }
+    }
+}
