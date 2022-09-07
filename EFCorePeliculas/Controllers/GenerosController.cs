@@ -27,6 +27,25 @@ namespace EFCorePeliculas.Controllers
             return genero is null ? NotFound() : genero;
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Post(Genero genero)
+        {
+            var estatus1 = context.Entry(genero).State;
+            context.Add(genero);
+            var estatus2 = context.Entry(genero).State;
+            await context.SaveChangesAsync();
+            var estatus3 = context.Entry(genero).State;
+            return Ok();
+        }
+
+        [HttpPost("insertarVarios")]
+        public async Task<ActionResult> Post(Genero[] generos)
+        {
+            context.AddRange(generos);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
         [HttpGet("primer")]
         public async Task<ActionResult<Genero>> Primer()
         {

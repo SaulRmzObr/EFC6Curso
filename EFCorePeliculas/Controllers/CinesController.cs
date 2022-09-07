@@ -41,5 +41,50 @@ namespace EFCorePeliculas.Controllers
                 .ToListAsync();
             return Ok(cines);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Post()
+        {
+            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+            var ubicacionCine = geometryFactory.CreatePoint(new Coordinate(-99.231544,20.058615));
+
+            var cine = new Cine
+            {
+                sNombre = "Cine Morelos",
+                Ubicacion = ubicacionCine,
+                CineOferta = new CineOferta()
+                {
+                    dPorcentajeDescuento = 5,
+                    dFechaInicio = DateTime.Today,
+                    dFechaFin = DateTime.Today.AddDays(7)
+                },
+                SalasDeCine = new HashSet<SalaDeCine>()
+                {
+                    new SalaDeCine()
+                    {
+                        dPrecio = 200,
+                        TipoSalaDeCine = TipoSalaDeCine.DosDimensiones
+                    },
+                    new SalaDeCine()
+                    {
+                        dPrecio = 350,
+                        TipoSalaDeCine = TipoSalaDeCine.TresDimensiones
+                    }
+                }
+            };
+
+            context.Add(cine);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost("insertarConDTO")]
+        public async Task<ActionResult> Post(CineCreacionDTO cineCreacionDTO)
+        {
+            var cine = mapper.Map<Cine>(cineCreacionDTO);
+            context.Add(cine);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }
