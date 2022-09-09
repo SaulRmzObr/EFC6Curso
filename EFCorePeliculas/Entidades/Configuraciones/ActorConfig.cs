@@ -12,6 +12,7 @@ namespace EFCorePeliculas.Entidades.Configuraciones
                 .HasMaxLength(150)
                 .IsRequired();
             builder.HasKey(prop => prop.idActor);
+            builder.Property(prop => prop.sNombre).HasField("_sNombre");
         }
     }
 }
