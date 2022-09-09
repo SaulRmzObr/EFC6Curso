@@ -28,6 +28,11 @@ namespace EFCorePeliculas.Servicios
                 .ForMember(ent => ent.Ubicacion, dto => dto.MapFrom(campo => geometryFactory.CreatePoint(new Coordinate(campo.dLongitud, campo.dLatitud))));
             CreateMap<CineOfertaCreacionDTO, CineOferta>();
             CreateMap<SalaDeCineCreacionDTO, SalaDeCine>();
+            CreateMap<PeliculaCreacionDTO, Pelicula>()
+                .ForMember(ent => ent.Generos, dto => dto.MapFrom(campo => campo.Generos.Select(id => new Genero() { idGenero = id })))
+                .ForMember(ent => ent.SalasDeCine, dto => dto.MapFrom(campo => campo.SalasDeCine.Select(id => new SalaDeCine() { idSalaCine = id})));
+            CreateMap<PeliculaActorCreacionDTO, PeliculaActor>();
+            CreateMap<ActorCreacionDTO, Actor>();
         }
     }
 }
